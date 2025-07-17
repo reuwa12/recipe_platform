@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ingredientDto {
+public class IngredientDto {
     @NotBlank
     private String name;
 }

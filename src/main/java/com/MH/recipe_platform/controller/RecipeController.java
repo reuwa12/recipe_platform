@@ -30,6 +30,8 @@ public class RecipeController {
         return recipeService.list(pageable);
     }
 
+    @DeleteMapping
+
     @GetMapping("/{id}")
     public RecipeDetailDto get(@PathVariable Long id) {
         return recipeService.get(id);
@@ -38,6 +40,18 @@ public class RecipeController {
     @PostMapping
     public RecipeResponseDto create(@Validated @RequestBody RecipeDto dto) {
         return recipeService.create(dto);
+    }
+
+    @PutMapping("/{id}")
+    public RecipeResponseDto update(@PathVariable Long id, @Validated @RequestBody RecipeDto dto) {
+        return recipeService.update(id, dto);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        recipeService.delete(id);
+
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/{id}/ingredients/add")
@@ -51,7 +65,7 @@ public class RecipeController {
                 .build();
     }
 
-    @PostMapping("/{id}/ingredients/{ingredientId}/remove")
+    @PostMapping("/{id}/ingredients/{ingredientId}")
     public ResponseEntity<Void> removeIngredient(
             @PathVariable Long id,
             @PathVariable Long ingredientId

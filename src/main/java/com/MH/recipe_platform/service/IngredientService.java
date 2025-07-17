@@ -1,5 +1,6 @@
 package com.MH.recipe_platform.service;
 
+import com.MH.recipe_platform.dto.IngredientDto;
 import com.MH.recipe_platform.dto.IngredientResponseDto;
 import com.MH.recipe_platform.model.Ingredient;
 import com.MH.recipe_platform.repository.IngredientRepository;
@@ -36,7 +37,7 @@ public class IngredientService {
         );
     }
 
-    public IngredientResponseDto create(Ingredient dto) {
+    public IngredientResponseDto create(IngredientDto dto) {
         if (ingredientRepository.findByName(dto.getName()).isPresent()) {
             throw new IllegalStateException("재료가 존재합니다.");
         }
@@ -44,5 +45,19 @@ public class IngredientService {
         ingredient.setName(dto.getName());
         Ingredient saved = ingredientRepository.save(ingredient);
         return new IngredientResponseDto(saved.getId(), saved.getName());
+    }
+
+    public IngredientResponseDto update(Long id, IngredientDto dto) {
+        Ingredient ingredient = ingredientRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("재료가 존재하지 않습니다."));
+
+        ingredient.setName(dto.getName());
+        Ingredient saved = ingredientRepository.save(ingredient);
+
+        return new IngredientResponseDto(saved.getId(), saved.getName());
+    }
+
+    public void delete(Long id) {
+        ingredientRepository.deleteById(id);
     }
 }
